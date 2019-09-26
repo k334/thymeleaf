@@ -1,0 +1,10 @@
+Dear [(${name})],
+
+This is the list of our company:
+
+[# th:each="li : ${lists}"]
+   - [(${li.name})]. icp: [(${li.icp})] EUR/kg
+[/]
+
+Thanks,
+  The Thymeleaf Shop

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head data-th-replace="common/common_head::commonHeader(~{::title})">
+    <title>message</title>
+</head>
+<body>
+
+<!-- Page Header-->
+<header class="page-header">
+    <div class="container-fluid">
+        <h2 class="no-margin-bottom">数据面板</h2>
+    </div>
+</header>
+
+<!--变量表达式，获取session属性中的对象-->
+<div th:text="${session.footerSession.name}"></div>
+
+<hr />
+
+<!--选择变量表达式，和变量表达式的作用是一样的，用法更高级-->
+<div th:object="${session.footerSession}">
+    <p>公司名称:<span th:text="*{name}"></span></p>
+    <p>公司ICP:<span th:text="*{getIcp()}"></span></p>
+</div>
+
+<hr />
+
+<!--消息表达式，用于获取国际化内容获取获取一些基本对象和一些工具对象-->
+<div th:text="${#dates.createNow()}"></div>
+<!--<div th:text="${#ctx}"></div>-->
+<div th:text="${#ctx.session.get('footerSession')}"></div>
+<!--<div th:text="${#vars}"></div>-->
+<div th:text="|${#locale.getLanguage()}_${#locale.getCountry()} |"></div>
+
+<div th:text="${#request.getAttribute('path')}"></div>
+
+<div th:text="${#response.getContentType()}"></div>
+
+<hr />
+
+<!--格式化日期-->
+<div th:text="${#dates.format(date,'YYYY-MM-dd')}"></div>
+<!--保留指定位数-->
+<div th:text="${#numbers.formatDecimal(100.7931,0,2)}"></div>
+<!--字符串方法，获取指定字符串的位置-->
+<div th:text="${#strings.indexOf(test1.getName(),'格')}"></div>
+
+<!--在数组或集合上求和，除此之外还有求平均值-->
+<div th:text="${#aggregates.sum(list)}" id="sum"></div>
+
+
+<hr />
+
+<table th:object="${test1}">
+    <tr>
+        <td>
+            <input type="text" th:field="*{name}" th:id="${#ids.seq('name')}"/>
+            <input type="text" th:field="*{name}" th:id="${#ids.seq('name')}"/>
+            <input type="text" th:field="*{name}" th:id="${#ids.seq('name')}"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div th:text="*{icp}" th:id="${#ids.seq('icp')}"></div>
+            <div th:text="*{icp}" th:id="${#ids.seq('icp')}"></div>
+            <div th:text="*{icp}" th:id="${#ids.seq('icp')}"></div>
+        </td>
+    </tr>
+</table>
+
+<hr/>
+
+<table>
+    <tr>
+        <th>序号</th>
+        <th>公司名称</th>
+        <th>公司编号</th>
+        <th>是否审核</th>
+    </tr>
+    <tr th:each="li:${lists}" th:class="${li.getId() % 2} ? 'odd'">
+        <td th:text="${li.getId()}"></td>
+        <td th:text="${li.getName()}"></td>
+        <td th:text="${li.getIcp()}"></td>
+        <td th:if="${li.getId() % 2} eq 1" th:text="已审核"></td>
+    </tr>
+    <tr th:remove="all">
+        <td>4</td>
+        <td>阿达</td>
+        <td>4489</td>
+        <td></td>
+    </tr>
+</table>
+
+
+</body>
+</html>
